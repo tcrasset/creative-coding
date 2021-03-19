@@ -8,9 +8,9 @@ class GridCanvas {
     };
 
     this.draw2DGrid = function (shapeCallback, colors = null, strokeColor = null) {
-      // Draws the 2D grid with an object returned by `shapeCallback`,
+      // Draws the 2D grid with an object returned by `shapeCallback` in each cell,
       // with optionally a filled color and an optional stroke
-      if (colors.length !== cols * rows) {
+      if (colors !== null && colors.length !== cols * rows) {
         throw new Error("Color grid has to have `rows*cols` cells");
       }
 
@@ -19,10 +19,10 @@ class GridCanvas {
           strokeColor == null ? noStroke() : stroke(strokeColor);
           colors == null ? noFill() : fill(colors[y * cols + x]);
 
-          let cx = x * scale;
-          let cy = y * scale;
+          let cell_x = x * scale;
+          let cell_y = y * scale;
 
-          shapeCallback(cx, cy, scale);
+          shapeCallback(cell_x, cell_y, scale);
         }
       }
     };
