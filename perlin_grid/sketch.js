@@ -8,11 +8,16 @@ function setup() {
   gridCanvas.createCanvas()
 
   let colors = makePerlinGrid(cols, rows)
-  gridCanvas.draw2DGrid(colors);
+  gridCanvas.draw2DGrid(createRectangle, colors);
 
 }
 
+function createRectangle(cx, cy, scale){
+  return rect(cx, cy, cx + scale, cy + scale);
+}
+
 function draw() {
+  noLoop()
 }
 
 function makePerlinGrid(cols, rows) {
