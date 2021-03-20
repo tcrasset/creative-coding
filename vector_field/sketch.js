@@ -14,7 +14,7 @@ function setup() {
 function createUnitVector(x, y, scale) {
   const angle = noise(x*noisiness,y*noisiness, zoff);
   myVec = new DisplayUnitVector(angle, 1, scale, 1);
-  myVec.show(x, y, scale);
+  return myVec.show(x, y, scale);
 }
 
 function draw() {
