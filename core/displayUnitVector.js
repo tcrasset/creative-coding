@@ -35,7 +35,7 @@ class DisplayUnitVector {
           translate(x, y);
         }
   
-        rotate(degrees(this.angle()));
+        rotate(this.angle());
   
         // Have the vector be of equal length on either side of the center
         const start_x = -this.length / 2 + margin;
