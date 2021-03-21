@@ -1,34 +1,22 @@
-let scale = 20;
-let cols = 40;
-let rows = 40;
+const scale = 20;
+const cols = 40;
+const rows = 40;
+const noisiness = 0.003;
 
 var gridCanvas;
+
 function setup() {
   gridCanvas = new GridCanvas(rows, cols, scale);
-  gridCanvas.createCanvas()
-
-  let colors = makePerlinGrid(cols, rows)
-  gridCanvas.draw2DGrid(createRectangle, colors);
-
+  gridCanvas.createCanvas();
+  gridCanvas.draw2DGrid(createRectangle);
 }
 
-function createRectangle(cx, cy, scale){
+function createRectangle(cx, cy, scale) {
+  let noiseColor = map(noise(cx*noisiness, cy*noisiness), 0, 1, 0, 255);
+  fill(color(noiseColor));
   return rect(cx, cy, cx + scale, cy + scale);
 }
 
 function draw() {
-  noLoop()
-}
-
-function makePerlinGrid(cols, rows) {
-  let colors = Array(cols * rows);
-  for (let y = 0; y < rows; y++) {
-    for (let x = 0; x < cols; x++) {
-      let index = y * cols + x;
-      let noiseColor = map(noise(index), 0, 1, 0, 255);
-      colors[index] = color(noiseColor);
-    }
-  }
-
-  return colors;
+  noLoop();
 }
