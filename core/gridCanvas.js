@@ -11,22 +11,11 @@ class GridCanvas {
       createCanvas(this.totalHeight, this.totalWidth, P2D);
     };
 
-    this.draw2DGrid = function (
-      shapeCallback,
-      colors = null,
-      strokeColor = null
-    ) {
-      // Draws the 2D grid with an object returned by `shapeCallback` in each cell,
-      // with optionally a filled color and an optional stroke
-      if (colors !== null && colors.length !== cols * rows) {
-        throw new Error("Color grid has to have `rows*cols` cells");
-      }
+    this.draw2DGrid = function (shapeCallback) {
+      // Draws the 2D grid with an object returned by `shapeCallback`
 
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
-          strokeColor == null ? noStroke() : stroke(strokeColor);
-          colors == null ? noFill() : fill(colors[y * cols + x]);
-
           let cell_coordinates = this.cellIndexToCoordinates(x, y);
           let index = this.cellIndexToArrayIndex(x, y);
           this.elements[index] = shapeCallback(
