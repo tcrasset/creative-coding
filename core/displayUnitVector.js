@@ -2,7 +2,8 @@ class DisplayUnitVector {
     constructor(angle, magnitude, length, margin) {
       // If displaying in a grid, length is usually set to the
       // size of each cell in the grid
-      this.value = new p5.Vector.fromAngle(angle);
+      // The angle should be in radians.
+      this.value = new p5.Vector.fromAngle(degrees(angle));
       this.value.setMag(magnitude);
       this.length = length;
       this.margin = margin;
@@ -12,14 +13,13 @@ class DisplayUnitVector {
       };
   
       this.magnitude = function () {
-        this.value.mag();
+        return this.value.mag();
       };
   
       this.show = function (x, y, scale, mode = "CORNER") {
         const allowed_modes = ["CORNER", "CENTER"];
   
         if (!allowed_modes.includes(mode)) throw Error("Invalid mode");
-  
         push();
         stroke(0);
         strokeWeight(1);
