@@ -9,6 +9,6 @@ Each small project will have it's own folder, while higher level functions will 
 
 ## List of projects
 
-- [Perlin noise color grid](perlin_grid/sketch.js)
+- [Perlin noise in a grid](perlin_noise/sketch.js)
 - [Changing vector fields](vector_field/sketch.js)
 - [Flow field with Perlin noise vector fields](flow_field/sketch.js)
