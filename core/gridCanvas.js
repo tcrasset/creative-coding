@@ -87,9 +87,9 @@ class GridCanvas {
     }
 
     this.checkOOBCoords = function (x = required(), y = required()) {
-      if (x > this.totalWidth || x < 0 || y > this.totalHeight || y < 0) {
+      if (x >= this.totalWidth || x < 0 || y >= this.totalHeight || y < 0) {
         throw Error(
-          `Position out of bounds. Actual(${x}, ${y}) Max(${this.totalWidth}, ${this.totalHeight}) Min(0,0)`
+          `Position out of bounds. Actual(${x}, ${y}), Min is (0,0), Max is (${this.totalWidth}, ${this.totalHeight}) `
         )
       }
     }
@@ -131,7 +131,7 @@ class GridCanvas {
 
     this.arrayIndexToCellIndex = function (index = required()) {
       if (index >= this.arrayLength || index < 0) {
-        throw Error('Index out of bounds')
+        throw Error(`Index (${index}) out of bounds`)
       }
       const x = index % this.cols // % is the "modulo operator", the remainder of i / width;
       const y = index / this.cols
@@ -139,8 +139,17 @@ class GridCanvas {
     }
 
     this.getGridElementAtCellIndex = function (i = required(), j = required()) {
-      const index = this.cellIndexToArrayIndex(i, j)
-      return this.grid[index]
+      try {
+        // When called as a first function (i.e. not within this.getGridElementAtCoordinate()),
+        // we want the user to know that he selected an out of bounds index.
+        const index = this.cellIndexToArrayIndex(i, j)
+        return this.grid[index]
+      } catch (error) {
+        console.error(
+          `Index (${i}, ${j}) out of bounds. Min is (0,0). 
+          Max is (${cols - 1}, ${rows - 1})`
+        )
+      }
     }
 
     this.getGridElementAtCoordinate = function (
