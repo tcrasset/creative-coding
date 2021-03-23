@@ -40,7 +40,6 @@ class GridCanvas {
     this.scale = scale;
     this.totalWidth = cols * scale;
     this.totalHeight = rows * scale;
-    this.elements = [];
     this.grid = Array(rows * cols);
 
     this.createCanvas = function () {
@@ -63,7 +62,7 @@ class GridCanvas {
         for (let j = 0; j < rows; j++) {
           let cell_coordinates = GridCanvas.cellIndexToCoordinates(i, j, this.scale);
           let index = this.cellIndexToArrayIndex(i, j);
-          this.elements[index] = shapeCallback(
+          shapeCallback(
             cell_coordinates.x,
             cell_coordinates.y,
             scale
@@ -124,24 +123,9 @@ class GridCanvas {
       return j * this.cols + i;
     };
 
-    this.getElementAtCellIndex = function (i, j) {
-      let index = this.cellIndexToArrayIndex(i, j);
-      return this.elements[index];
-    };
-
     this.getGridElementAtCellIndex = function (i, j) {
       let index = this.cellIndexToArrayIndex(i, j);
       return this.grid[index];
-    };
-
-    this.getElementAtCoordinate = function (x, y) {
-      // Given a valid `x` and `y` on the canvas, returns the
-      // element at these coordinates
-
-      this.checkOOBCoords(x, y);
-
-      let cell_index = GridCanvas.cellIndex(x, y);
-      return this.getElementAtCellIndex(cell_index.x, cell_index.y);
     };
 
     this.getGridElementAtCoordinate = function (x, y) {
