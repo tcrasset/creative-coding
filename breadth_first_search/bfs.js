@@ -2,6 +2,7 @@ class BFS {
   constructor(gridCanvas = required(), root = required(), end = required()) {
     // `root` and `end` are Cell types
     root.discover()
+    this.gridCanvas = gridCanvas
     this.queue = [root]
     this.end = end
     this.isDone = false
@@ -14,7 +15,7 @@ class BFS {
         return
       }
 
-      const neighboursCoordinates = gridCanvas.neighbours(elem.i, elem.j)
+      const neighboursCoordinates = this.gridCanvas.neighbours(elem.i, elem.j)
 
       neighboursCoordinates.forEach((neighbour) => {
         const neighbourCell = gridCanvas.getGridElementAtCellIndex(
