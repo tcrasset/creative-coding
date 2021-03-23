@@ -1,8 +1,8 @@
 const scale = 30
 const cols = 20
 const rows = 20
-const noisiness = 0.004
-const increment = 0.005
+const noisiness = 0.04
+const increment = 0.0005
 let zoff = 0
 
 let swarm
@@ -13,14 +13,12 @@ function setup() {
   gridCanvas.createGrid(createUnitVector)
   gridCanvas.createCanvas()
   background(51)
-
   swarm = new ParticleSwarm(100, color(255, 30))
 }
 
-function createUnitVector(x, y, scale) {
-  const angle = noise(x * noisiness, y * noisiness, zoff)
+function createUnitVector(i, j, scale) {
+  const angle = noise(i * noisiness, j * noisiness, zoff)
   myVec = new DisplayUnitVector(angle, 1, scale, 1)
-  // myVec.show(x, y, scale);
   return myVec
 }
 
@@ -28,7 +26,6 @@ function updateAngle(gridCanvas, zoff) {
   for (let index = 0; index < gridCanvas.arrayLength; index++) {
     const vector = gridCanvas.grid[index]
     const coords = gridCanvas.arrayIndexToCellIndex(index)
-    console.log(coords)
     const angle = noise(coords.x * noisiness, coords.y * noisiness, zoff)
     if (index == 0) console.log(angle)
     vector.setAngle(angle)
@@ -37,7 +34,7 @@ function updateAngle(gridCanvas, zoff) {
 
 function draw() {
   updateAngle(gridCanvas, zoff)
-  // console.log(gridCanvas.grid[25].angle());
+  console.log(gridCanvas.grid[25].angle())
   swarm.stepParticles(gridCanvas)
   zoff += increment
 }

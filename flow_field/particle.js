@@ -4,7 +4,7 @@ class Particle {
     this.prevPos = this.pos.copy()
     this.vel = createVector(0, 0)
     this.acc = createVector(0, 0)
-    this.maxSpeed = 4
+    this.maxSpeed = 5
 
     this.show = function (color = 255) {
       stroke(color)

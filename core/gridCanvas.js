@@ -42,8 +42,8 @@ class GridCanvas {
     this.totalWidth = cols * scale
     this.totalHeight = rows * scale
 
-    this.gridLength = rows * cols
-    this.grid = Array(this.gridLength)
+    this.arrayLength = rows * cols
+    this.grid = Array(this.arrayLength)
 
     this.createCanvas = function () {
       createCanvas(this.totalHeight, this.totalWidth, P2D)
@@ -53,7 +53,7 @@ class GridCanvas {
       for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
           const index = this.cellIndexToArrayIndex(i, j)
-          this.grid[index] = cellCallback(i, j)
+          this.grid[index] = cellCallback(i, j, scale)
         }
       }
       return this.grid
@@ -133,8 +133,8 @@ class GridCanvas {
       if (index >= this.arrayLength || index < 0) {
         throw Error('Index out of bounds')
       }
-      x = index % this.cols // % is the "modulo operator", the remainder of i / width;
-      y = index / this.cols
+      const x = index % this.cols // % is the "modulo operator", the remainder of i / width;
+      const y = index / this.cols
       return createVector(x, y)
     }
 
