@@ -5,14 +5,14 @@ class GridCanvas {
   //
   // The horizontal axis has the following components/nomenclature:
   //    - `cols` amount of cell in a horizontal row
-  //    - x stands for coordinates in that axis
-  //    - i stands for the grid index on that axis
+  //    - y stands for coordinates in that axis
+  //    - j stands for the grid index on that axis
   //    - this.totalWidth as the total width
   //
   // The vertical axis has the following components/nomenclature:
   //    - `rows` amount of cells in a vertical column
-  //    - y stands for coordinates in that axis
-  //    - j stands for the grid index on that axis
+  //    - x stands for coordinates in that axis
+  //    - i stands for the grid index on that axis
   //    - this.totalHeight as the total height
 
   static cellIndexToCoordinates(
@@ -44,25 +44,31 @@ class GridCanvas {
 
     this.arrayLength = rows * cols
     this.grid = Array(this.arrayLength)
-
+    console.log(this.totalHeight)
+    console.log(this.totalWidth)
     this.createCanvas = function () {
       createCanvas(this.totalHeight, this.totalWidth, P2D)
     }
 
     this.createGrid = function (cellCallback = required()) {
-      for (let i = 0; i < cols; i++) {
-        for (let j = 0; j < rows; j++) {
+      let k = 0
+
+      for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
           const index = this.cellIndexToArrayIndex(i, j)
+          console.log(i, j)
+          console.log(k++, index)
           this.grid[index] = cellCallback(i, j, scale)
         }
       }
+      console.log(this.grid)
       return this.grid
     }
 
     this.draw2DGrid = function (shapeCallback = required()) {
       // Draws the 2D grid with an object returned by `shapeCallback`
-      for (let i = 0; i < cols; i++) {
-        for (let j = 0; j < rows; j++) {
+      for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
           const cellCoordinates = GridCanvas.cellIndexToCoordinates(
             i,
             j,
@@ -74,11 +80,11 @@ class GridCanvas {
     }
 
     this.valid_i = function (i = required()) {
-      return i >= 0 && i < this.cols
+      return i >= 0 && i < this.rows
     }
 
     this.valid_j = function (j = required()) {
-      return j >= 0 && j < this.rows
+      return j >= 0 && j < this.cols
     }
 
     this.checkOOBIndex = function (i = required(), j = required()) {
@@ -87,7 +93,7 @@ class GridCanvas {
     }
 
     this.checkOOBCoords = function (x = required(), y = required()) {
-      if (x >= this.totalWidth || x < 0 || y >= this.totalHeight || y < 0) {
+      if (x >= this.totalHeight || x < 0 || y >= this.totalWidth || y < 0) {
         throw Error(
           `Position out of bounds. Actual(${x}, ${y}), Min is (0,0), Max is (${this.totalWidth}, ${this.totalHeight}) `
         )
@@ -126,7 +132,7 @@ class GridCanvas {
 
     this.cellIndexToArrayIndex = function (i = required(), j = required()) {
       this.checkOOBIndex(i, j)
-      return j * this.cols + i
+      return i * this.cols + j
     }
 
     this.arrayIndexToCellIndex = function (index = required()) {
