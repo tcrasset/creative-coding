@@ -32,13 +32,7 @@ class GridCanvas {
     return createVector(i, j);
   };
 
-  static cellCoordinates = function (x, y) {
-    // Given at `x` and `y` on the canvas, returns the
-    // underlying element coordinates (upper left corner)
 
-    let cellIndex = cellIndex(x, y);
-    return GridCanvas.cellIndexToCoordinates(cellIndex.x, cellIndex.y);
-  };
 
   constructor(rows, cols, scale) {
     this.cols = cols;
@@ -67,7 +61,7 @@ class GridCanvas {
       // Draws the 2D grid with an object returned by `shapeCallback`
       for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
-          let cell_coordinates = GridCanvas.cellIndexToCoordinates(i, j);
+          let cell_coordinates = GridCanvas.cellIndexToCoordinates(i, j, this.scale);
           let index = this.cellIndexToArrayIndex(i, j);
           this.elements[index] = shapeCallback(
             cell_coordinates.x,
@@ -87,7 +81,7 @@ class GridCanvas {
     };
 
     this.checkOOBIndex = function (i, j) {
-      let coords = GridCanvas.cellIndexToCoordinates(i, j);
+      let coords = GridCanvas.cellIndexToCoordinates(i, j, this.scale);
       this.checkOOBCoords(coords.x, coords.y);
     };
 
@@ -158,6 +152,14 @@ class GridCanvas {
 
       let cell_index = GridCanvas.cellIndex(x, y);
       return this.getGridElementAtCellIndex(cell_index.x, cell_index.y);
+    };
+
+    this.cellCoordinates = function (x, y) {
+      // Given at `x` and `y` on the canvas, returns the
+      // underlying element coordinates (upper left corner)
+  
+      let cellIndex = cellIndex(x, y);
+      return GridCanvas.cellIndexToCoordinates(cellIndex.x, cellIndex.y, this.scale);
     };
   }
 }
