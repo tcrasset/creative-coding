@@ -1,17 +1,13 @@
 class Cell {
-  constructor(x, y) {
-    this.x = x
-    this.y = y
-    this.discovered = false
+  constructor(i = required(), j = required()) {
+    this.i = i
+    this.j = j
+  }
 
-    this.discover = function () {
-      this.discovered = true
-    }
-
-    this.show = function (cx, cy, scale) {
-      const cellColor = this.discovered ? color(255, 0, 0) : color(0, 255, 0)
-      fill(cellColor)
-      rect(cx, cy, cx + scale, cy + scale)
-    }
+  show(cx, cy, scale, fillColor = null, strokeColor = null) {
+    strokeColor == null ? noStroke() : stroke(strokeColor)
+    fillColor == null ? noFill() : fill(fillColor)
+    fill(fillColor)
+    rect(cx, cy, cx + scale, cy + scale)
   }
 }

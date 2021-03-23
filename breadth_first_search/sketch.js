@@ -10,7 +10,7 @@ const queue = []
 function setup() {
   gridCanvas = new GridCanvas(rows, cols, scale)
   gridCanvas.createCanvas()
-  gridCanvas.createGrid((x, y) => new Cell(x, y))
+  gridCanvas.createGrid((x, y) => new BFSCell(x, y))
   gridCanvas.draw2DGrid(createRectangle)
   bfs = new BFS(
     gridCanvas,
