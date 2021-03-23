@@ -27,14 +27,12 @@ function updateAngle(gridCanvas, zoff) {
     const vector = gridCanvas.grid[index]
     const coords = gridCanvas.arrayIndexToCellIndex(index)
     const angle = noise(coords.x * noisiness, coords.y * noisiness, zoff)
-    if (index == 0) console.log(angle)
     vector.setAngle(angle)
   }
 }
 
 function draw() {
   updateAngle(gridCanvas, zoff)
-  console.log(gridCanvas.grid[25].angle())
   swarm.stepParticles(gridCanvas)
   zoff += increment
 }
