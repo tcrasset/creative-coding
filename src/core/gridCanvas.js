@@ -44,24 +44,17 @@ class GridCanvas {
 
     this.arrayLength = rows * cols
     this.grid = Array(this.arrayLength)
-    console.log(this.totalHeight)
-    console.log(this.totalWidth)
     this.createCanvas = function () {
       createCanvas(this.totalHeight, this.totalWidth, P2D)
     }
 
     this.createGrid = function (cellCallback = required()) {
-      let k = 0
-
       for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
           const index = this.cellIndexToArrayIndex(i, j)
-          console.log(i, j)
-          console.log(k++, index)
           this.grid[index] = cellCallback(i, j, scale)
         }
       }
-      console.log(this.grid)
       return this.grid
     }
 
