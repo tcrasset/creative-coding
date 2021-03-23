@@ -137,13 +137,5 @@ class GridCanvas {
       let cell_index = GridCanvas.cellIndex(x, y);
       return this.getGridElementAtCellIndex(cell_index.x, cell_index.y);
     };
-
-    this.cellCoordinates = function (x, y) {
-      // Given at `x` and `y` on the canvas, returns the
-      // underlying element coordinates (upper left corner)
-  
-      let cellIndex = cellIndex(x, y);
-      return GridCanvas.cellIndexToCoordinates(cellIndex.x, cellIndex.y, this.scale);
-    };
   }
 }
