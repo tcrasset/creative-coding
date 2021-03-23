@@ -134,7 +134,7 @@ class GridCanvas {
 
       this.checkOOBCoords(x, y);
 
-      let cell_index = GridCanvas.cellIndex(x, y);
+      let cell_index = GridCanvas.cellIndex(x, y, this.scale);
       return this.getGridElementAtCellIndex(cell_index.x, cell_index.y);
     };
   }
