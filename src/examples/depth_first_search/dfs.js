@@ -3,6 +3,7 @@ class DFS {
     // `root` and `end` are Cell types
     this.gridCanvas = gridCanvas
     this.queue = [root]
+    this.root = root
     this.end = end
     this.isDone = false
   }
@@ -22,6 +23,9 @@ class DFS {
             neighbour.y
           )
           this.queue.push(neighbourCell)
+
+          // We push the parent only if the node is visited the first time
+          if (neighbourCell.parent == null) neighbourCell.parent = elem
         })
       }
 
@@ -35,12 +39,25 @@ class DFS {
       return
     }
   }
+
+  computePath() {
+    let curr = this.end
+    this.end.isOnPath = true
+    this.root.isOnPath = true
+
+    while (curr != this.root) {
+      curr.isOnPath = true
+      curr = curr.parent
+    }
+  }
 }
 
 class DFSCell extends Cell {
   constructor(i = required(), j = required()) {
     super(i, j)
+    this.parent = null
     this.discovered = false
+    this.isOnPath = false
   }
 
   discover() {
@@ -48,7 +65,14 @@ class DFSCell extends Cell {
   }
 
   show(cx, cy, scale) {
-    const cellColor = this.discovered ? color(255, 0, 0) : color(0, 255, 0)
+    let cellColor
+    if (this.isOnPath) {
+      cellColor = color(0, 0, 255)
+    } else if (this.discovered) {
+      cellColor = color(255, 0, 0)
+    } else {
+      cellColor = color(0, 255, 0)
+    }
     super.show(cx, cy, scale, cellColor, color(0))
   }
 }

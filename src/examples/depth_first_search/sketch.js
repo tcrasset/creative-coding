@@ -15,7 +15,7 @@ function setup() {
   dfs = new DFS(
     gridCanvas,
     gridCanvas.getGridElementAtCellIndex(0, 0),
-    gridCanvas.getGridElementAtCellIndex(3, 3)
+    gridCanvas.getGridElementAtCellIndex(12, 10)
   )
 }
 
@@ -27,7 +27,9 @@ function draw() {
   dfs.search()
   gridCanvas.draw2DGrid(createRectangle)
   if (dfs.isDone) {
-    noLoop()
+    dfs.computePath()
+    gridCanvas.draw2DGrid(createRectangle)
     console.log('DONE!')
+    noLoop()
   }
 }
