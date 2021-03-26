@@ -1,6 +1,6 @@
-const scale = 20
-const cols = 4
-const rows = 4
+const scale = 5
+const cols = 50
+const rows = 50
 
 let bfs
 let cells
@@ -15,7 +15,7 @@ function setup() {
   bfs = new BFS(
     gridCanvas,
     gridCanvas.getGridElementAtCellIndex(0, 0),
-    gridCanvas.getGridElementAtCellIndex(3, 3)
+    gridCanvas.getGridElementAtCellIndex(10, 0)
   )
 }
 
@@ -25,9 +25,10 @@ function createRectangle(cx, cy, scale) {
 
 function draw() {
   bfs.search()
-  gridCanvas.draw2DGrid(createRectangle)
   if (bfs.isDone) {
+    bfs.computePath()
+    gridCanvas.draw2DGrid(createRectangle)
     noLoop()
-    console.log('DONE!')
   }
+  gridCanvas.draw2DGrid(createRectangle)
 }

@@ -1,9 +1,10 @@
 class BFS {
   constructor(gridCanvas = required(), root = required(), end = required()) {
     // `root` and `end` are Cell types
-    root.discover()
+    root.discover(null)
     this.gridCanvas = gridCanvas
     this.queue = [root]
+    this.root = root
     this.end = end
     this.isDone = false
   }
@@ -23,7 +24,7 @@ class BFS {
           neighbour.y
         )
         if (!neighbourCell.discovered) {
-          neighbourCell.discover()
+          neighbourCell.discover(elem)
           this.queue.push(neighbourCell)
         }
       })
@@ -33,20 +34,41 @@ class BFS {
       return
     }
   }
+
+  computePath() {
+    let curr = this.end
+    this.end.isOnPath = true
+    this.root.isOnPath = true
+
+    while (curr != this.root) {
+      curr.isOnPath = true
+      curr = curr.parent
+    }
+  }
 }
 
 class BFSCell extends Cell {
   constructor(i = required(), j = required()) {
     super(i, j)
+    this.parent = null
     this.discovered = false
+    this.isOnPath = false
   }
 
-  discover() {
+  discover(parent = required()) {
+    this.parent = parent
     this.discovered = true
   }
 
   show(cx, cy, scale) {
-    const cellColor = this.discovered ? color(255, 0, 0) : color(0, 255, 0)
+    let cellColor
+    if (this.isOnPath) {
+      cellColor = color(0, 0, 255)
+    } else if (this.discovered) {
+      cellColor = color(255, 0, 0)
+    } else {
+      cellColor = color(0, 255, 0)
+    }
     super.show(cx, cy, scale, cellColor, color(0))
   }
 }
