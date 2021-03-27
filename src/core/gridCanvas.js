@@ -19,35 +19,35 @@ class GridCanvas {
     i = required(),
     j = required(),
     scale = required(),
-    p5 = required()
+    _p5 = required()
   ) {
     // Given a cell index (amount of rows/cols) and the scale, return the coordinate of that
     // cell (upper left corner)
-    return p5.createVector(i * scale, j * scale)
+    return _p5.createVector(i * scale, j * scale)
   }
 
   static cellIndex(
     x = required(),
     y = required(),
     scale = required(),
-    p5 = required()
+    _p5 = required()
   ) {
     // Given any valid `x` and `y` from the canvas
     // returns the corresponding cell index where
     // x and y is located in as a p5.Vector
 
-    const i = p5.floor(x / scale)
-    const j = p5.floor(y / scale)
-    return p5.createVector(i, j)
+    const i = _p5.floor(x / scale)
+    const j = _p5.floor(y / scale)
+    return _p5.createVector(i, j)
   }
 
   constructor(
     rows = required(),
     cols = required(),
     scale = required(),
-    p5 = required()
+    _p5 = required()
   ) {
-    this.p5 = p5
+    this.p5 = _p5
 
     this.cols = cols
     this.rows = rows
