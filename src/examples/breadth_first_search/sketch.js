@@ -1,34 +1,37 @@
-const scale = 5
-const cols = 50
-const rows = 50
+const s = (sketch) => {
+  const scale = 5
+  const cols = 50
+  const rows = 50
 
-let bfs
-let cells
-let gridCanvas
-const queue = []
+  let bfs
+  let gridCanvas
 
-function setup() {
-  gridCanvas = new GridCanvas(rows, cols, scale)
-  gridCanvas.createCanvas()
-  gridCanvas.createGrid((x, y) => new BFSCell(x, y))
-  gridCanvas.draw2DGrid(createRectangle)
-  bfs = new BFS(
-    gridCanvas,
-    gridCanvas.getGridElementAtCellIndex(0, 0),
-    gridCanvas.getGridElementAtCellIndex(10, 0)
-  )
-}
-
-function createRectangle(cx, cy, scale) {
-  gridCanvas.getGridElementAtCoordinate(cx, cy).show(cx, cy, scale)
-}
-
-function draw() {
-  bfs.search()
-  if (bfs.isDone) {
-    bfs.computePath()
+  sketch.setup = () => {
+    gridCanvas = new GridCanvas(rows, cols, scale, sketch)
+    gridCanvas.createCanvas()
+    gridCanvas.createGrid((x, y) => new BFSCell(x, y, sketch))
     gridCanvas.draw2DGrid(createRectangle)
-    noLoop()
+    bfs = new BFS(
+      gridCanvas,
+      gridCanvas.getGridElementAtCellIndex(0, 0),
+      gridCanvas.getGridElementAtCellIndex(10, 0)
+    )
   }
-  gridCanvas.draw2DGrid(createRectangle)
+
+  function createRectangle(cx, cy, scale) {
+    gridCanvas.getGridElementAtCoordinate(cx, cy).show(cx, cy, scale)
+  }
+
+  sketch.draw = () => {
+    bfs.search()
+    if (bfs.isDone) {
+      bfs.computePath()
+      gridCanvas.draw2DGrid(createRectangle)
+      sketch.noLoop()
+    }
+    gridCanvas.draw2DGrid(createRectangle)
+  }
 }
+
+// eslint-disable-next-line new-cap
+const myp5 = new p5(s)
