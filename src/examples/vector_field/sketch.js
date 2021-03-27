@@ -8,7 +8,6 @@ const s = (sketch) => {
   let gridCanvas
 
   sketch.setup = () => {
-    // eslint-disable-next-line no-unused-vars
     gridCanvas = new GridCanvas(rows, cols, scale, sketch)
     gridCanvas.createCanvas()
   }
