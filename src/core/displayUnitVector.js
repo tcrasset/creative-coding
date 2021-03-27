@@ -8,14 +8,14 @@ class DisplayUnitVector {
     margin = required(),
     _p5 = required()
   ) {
-    // If displaying in a grid, length is usually set to the
-    // size of each cell in the grid
-    // The angle should be in radians.
-
     this.p5 = _p5
 
+    // The angle should be in radians.
     this.value = p5.Vector.fromAngle(this.p5.degrees(angle))
     this.value.setMag(magnitude)
+    // If displaying in a grid, length is usually set to the
+    // size of each cell in the grid
+
     this.length = length
     this.margin = margin
   }
