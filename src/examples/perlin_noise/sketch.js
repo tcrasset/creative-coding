@@ -1,9 +1,9 @@
 /* eslint-disable new-cap */
 const s = (sketch) => {
-  const scale = 50
-  const cols = 5
-  const rows = 5
-  const noisiness = 0.03
+  const scale = 10
+  const cols = 100
+  const rows = 100
+  const noisiness = 0.003
   let gridCanvas
 
   sketch.setup = () => {
