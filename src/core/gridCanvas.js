@@ -36,8 +36,8 @@ class GridCanvas {
     // returns the corresponding cell index where
     // x and y is located in as a p5.Vector
 
-    const i = floor(x / scale)
-    const j = floor(y / scale)
+    const i = p5.floor(x / scale)
+    const j = p5.floor(y / scale)
     return p5.createVector(i, j)
   }
 
@@ -96,7 +96,7 @@ class GridCanvas {
   }
 
   checkOOBIndex(i = required(), j = required()) {
-    const coords = GridCanvas.cellIndexToCoordinates(i, j, this.scale, p5)
+    const coords = GridCanvas.cellIndexToCoordinates(i, j, this.scale, this.p5)
     this.checkOOBCoords(coords.x, coords.y)
   }
 
@@ -168,7 +168,7 @@ class GridCanvas {
 
     this.checkOOBCoords(x, y)
 
-    const cellIndex = GridCanvas.cellIndex(x, y, this.scale)
+    const cellIndex = GridCanvas.cellIndex(x, y, this.scale, this.p5)
     return this.getGridElementAtCellIndex(cellIndex.x, cellIndex.y)
   }
 }
