@@ -1,0 +1,42 @@
+body {
+  background-color: white;
+  height: 100%;
+  margin: 0;
+}
+
+.box {
+  display: flex;
+  flex-flow: column;
+  height: 50%;
+}
+
+.box #upper {
+  background-color: gainsboro;
+  height: 500px;
+}
+
+h1 {
+  text-align: center;
+}
+
+#p5sketch {
+  width: 100%;
+  padding-top: 10px;
+  position: absolute;
+  z-index: 9;
+  display: flex;
+  justify-content: center;
+}
+
+hr {
+  height: 50px;
+  background: linear-gradient(white, gainsboro);
+  border: none;
+  margin: 0;
+}
+
+#logo {
+  padding-top: 0.5em;
+  padding-left: 0.5em;
+  height: 50px;
+}

@@ -36,4 +36,4 @@ const s = (sketch) => {
 }
 
 // eslint-disable-next-line new-cap
-const myp5 = new p5(s)
+const myp5 = new p5(s, 'p5sketch')
