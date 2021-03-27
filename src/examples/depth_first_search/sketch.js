@@ -1,6 +1,6 @@
 const s = (sketch) => {
   const scale = 20
-  const cols = 14
+  const cols = 15
   const rows = 15
 
   let dfs

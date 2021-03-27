@@ -1,7 +1,7 @@
 const s = (sketch) => {
-  const scale = 5
-  const cols = 50
-  const rows = 50
+  const scale = 20
+  const cols = 15
+  const rows = 15
 
   let bfs
   let gridCanvas
