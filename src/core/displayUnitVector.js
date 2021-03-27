@@ -1,18 +1,20 @@
 /* eslint-disable new-cap */
+
 class DisplayUnitVector {
   constructor(
     angle = required(),
     magnitude = required(),
     length = required(),
     margin = required(),
-    p5 = required()
+    _p5 = required()
   ) {
     // If displaying in a grid, length is usually set to the
     // size of each cell in the grid
     // The angle should be in radians.
 
-    this.p5 = p5
-    this.value = new p5.Vector.fromAngle(this.p5.degrees(angle))
+    this.p5 = _p5
+
+    this.value = p5.Vector.fromAngle(this.p5.degrees(angle))
     this.value.setMag(magnitude)
     this.length = length
     this.margin = margin
@@ -52,8 +54,8 @@ class DisplayUnitVector {
     this.p5.rotate(this.angle())
 
     // Have the vector be of equal length on either side of the center
-    const startX = -this.length / 2 + margin
-    const endX = this.length / 2 - margin
+    const startX = -this.length / 2 + this.margin
+    const endX = this.length / 2 - this.margin
     this.p5.line(startX, 0, endX, 0)
 
     // Arrow head
