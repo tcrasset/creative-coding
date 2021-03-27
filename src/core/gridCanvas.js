@@ -18,24 +18,37 @@ class GridCanvas {
   static cellIndexToCoordinates(
     i = required(),
     j = required(),
-    scale = required()
+    scale = required(),
+    p5 = required()
   ) {
     // Given a cell index (amount of rows/cols) and the scale, return the coordinate of that
     // cell (upper left corner)
-    return createVector(i * scale, j * scale)
+    return p5.createVector(i * scale, j * scale)
   }
 
-  static cellIndex(x = required(), y = required(), scale = required()) {
+  static cellIndex(
+    x = required(),
+    y = required(),
+    scale = required(),
+    p5 = required()
+  ) {
     // Given any valid `x` and `y` from the canvas
     // returns the corresponding cell index where
     // x and y is located in as a p5.Vector
 
     const i = floor(x / scale)
     const j = floor(y / scale)
-    return createVector(i, j)
+    return p5.createVector(i, j)
   }
 
-  constructor(rows = required(), cols = required(), scale = required()) {
+  constructor(
+    rows = required(),
+    cols = required(),
+    scale = required(),
+    p5 = required()
+  ) {
+    this.p5 = p5
+
     this.cols = cols
     this.rows = rows
     this.scale = scale
@@ -45,7 +58,7 @@ class GridCanvas {
     this.arrayLength = rows * cols
     this.grid = Array(this.arrayLength)
     this.createCanvas = function () {
-      createCanvas(this.totalHeight, this.totalWidth, P2D)
+      p5.createCanvas(this.totalHeight, this.totalWidth, p5.P2D)
     }
 
     this.createGrid = function (cellCallback = required()) {
@@ -65,7 +78,8 @@ class GridCanvas {
           const cellCoordinates = GridCanvas.cellIndexToCoordinates(
             i,
             j,
-            this.scale
+            this.scale,
+            this.p5
           )
           shapeCallback(cellCoordinates.x, cellCoordinates.y, scale)
         }
@@ -81,7 +95,7 @@ class GridCanvas {
     }
 
     this.checkOOBIndex = function (i = required(), j = required()) {
-      const coords = GridCanvas.cellIndexToCoordinates(i, j, this.scale)
+      const coords = GridCanvas.cellIndexToCoordinates(i, j, this.scale, p5)
       this.checkOOBCoords(coords.x, coords.y)
     }
 
@@ -100,24 +114,24 @@ class GridCanvas {
     ) {
       const neighbours = []
 
-      if (this.valid_i(i - 1)) neighbours.push(createVector(i - 1, j))
-      if (this.valid_j(j - 1)) neighbours.push(createVector(i, j - 1))
-      if (this.valid_j(j + 1)) neighbours.push(createVector(i, j + 1))
-      if (this.valid_i(i + 1)) neighbours.push(createVector(i + 1, j))
+      if (this.valid_i(i - 1)) neighbours.push(this.p5.createVector(i - 1, j))
+      if (this.valid_j(j - 1)) neighbours.push(this.p5.createVector(i, j - 1))
+      if (this.valid_j(j + 1)) neighbours.push(this.p5.createVector(i, j + 1))
+      if (this.valid_i(i + 1)) neighbours.push(this.p5.createVector(i + 1, j))
 
       if (withDiagonals) {
         // ! UPPER LEFT DIAGONAL
         if (this.valid_i(i - 1) && this.valid_j(j - 1))
-          neighbours.push(createVector(i - 1, j - 1))
+          neighbours.push(this.p5.createVector(i - 1, j - 1))
         // ! UPPER RIGHT DIAGONAL
         if (this.valid_i(i + 1) && this.valid_j(j - 1))
-          neighbours.push(createVector(i + 1, j - 1))
+          neighbours.push(this.p5.createVector(i + 1, j - 1))
         // ! LOWER LEFT DIAGONAL
         if (this.valid_i(i - 1) && this.valid_j(j + 1))
-          neighbours.push(createVector(i - 1, j + 1))
+          neighbours.push(this.p5.createVector(i - 1, j + 1))
         // ! LOWER RIGHT DIAGONAL
         if (this.valid_i(i + 1) && this.valid_j(j + 1))
-          neighbours.push(createVector(i + 1, j + 1))
+          neighbours.push(this.p5.createVector(i + 1, j + 1))
       }
 
       return neighbours
@@ -134,7 +148,7 @@ class GridCanvas {
       }
       const x = index % this.cols // % is the "modulo operator", the remainder of i / width;
       const y = index / this.cols
-      return createVector(x, y)
+      return this.p5.createVector(x, y)
     }
 
     this.getGridElementAtCellIndex = function (i = required(), j = required()) {
