@@ -1,35 +1,39 @@
-const scale = 20
-const cols = 14
-const rows = 15
+const s = (sketch) => {
+  const scale = 20
+  const cols = 14
+  const rows = 15
 
-let dfs
-let cells
-let gridCanvas
-const queue = []
+  let dfs
+  let gridCanvas
 
-function setup() {
-  gridCanvas = new GridCanvas(rows, cols, scale)
-  gridCanvas.createCanvas()
-  gridCanvas.createGrid((x, y) => new DFSCell(x, y))
-  gridCanvas.draw2DGrid(createRectangle)
-  dfs = new DFS(
-    gridCanvas,
-    gridCanvas.getGridElementAtCellIndex(0, 0),
-    gridCanvas.getGridElementAtCellIndex(12, 10)
-  )
-}
-
-function createRectangle(cx, cy, scale) {
-  gridCanvas.getGridElementAtCoordinate(cx, cy).show(cx, cy, scale)
-}
-
-function draw() {
-  dfs.search()
-  gridCanvas.draw2DGrid(createRectangle)
-  if (dfs.isDone) {
-    dfs.computePath()
+  sketch.setup = () => {
+    gridCanvas = new GridCanvas(rows, cols, scale, sketch)
+    gridCanvas.createCanvas()
+    gridCanvas.createGrid((x, y) => new DFSCell(x, y, sketch))
     gridCanvas.draw2DGrid(createRectangle)
-    console.log('DONE!')
-    noLoop()
+    dfs = new DFS(
+      gridCanvas,
+      gridCanvas.getGridElementAtCellIndex(0, 0),
+      gridCanvas.getGridElementAtCellIndex(12, 10),
+      sketch
+    )
+  }
+
+  function createRectangle(cx, cy, scale) {
+    gridCanvas.getGridElementAtCoordinate(cx, cy).show(cx, cy, scale)
+  }
+
+  sketch.draw = () => {
+    dfs.search()
+    gridCanvas.draw2DGrid(createRectangle)
+    if (dfs.isDone) {
+      dfs.computePath()
+      gridCanvas.draw2DGrid(createRectangle)
+      console.log('DONE!')
+      sketch.noLoop()
+    }
   }
 }
+
+// eslint-disable-next-line new-cap
+const myp5 = new p5(s)

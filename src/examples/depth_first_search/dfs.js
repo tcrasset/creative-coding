@@ -1,10 +1,18 @@
 class DFS {
-  constructor(gridCanvas = required(), root = required(), end = required()) {
-    // `root` and `end` are Cell types
+  constructor(
+    gridCanvas = required(),
+    root = required(),
+    end = required(),
+    _p5 = required()
+  ) {
+    this.p5 = _p5
+
+    // `root` and `end` are DFSCell types
     this.gridCanvas = gridCanvas
     this.queue = [root]
     this.root = root
     this.end = end
+
     this.isDone = false
   }
 
@@ -18,7 +26,7 @@ class DFS {
         const neighboursCoordinates = this.gridCanvas.neighbours(elem.i, elem.j)
 
         neighboursCoordinates.forEach((neighbour) => {
-          const neighbourCell = gridCanvas.getGridElementAtCellIndex(
+          const neighbourCell = this.gridCanvas.getGridElementAtCellIndex(
             neighbour.x,
             neighbour.y
           )
@@ -35,7 +43,7 @@ class DFS {
       }
     } else {
       console.log('No solution!')
-      noLoop()
+      this.p5.noLoop()
       return
     }
   }
@@ -53,8 +61,8 @@ class DFS {
 }
 
 class DFSCell extends Cell {
-  constructor(i = required(), j = required()) {
-    super(i, j)
+  constructor(i = required(), j = required(), _p5 = required()) {
+    super(i, j, _p5)
     this.parent = null
     this.discovered = false
     this.isOnPath = false
@@ -67,12 +75,12 @@ class DFSCell extends Cell {
   show(cx, cy, scale) {
     let cellColor
     if (this.isOnPath) {
-      cellColor = color(0, 0, 255)
+      cellColor = this.p5.color(0, 0, 255)
     } else if (this.discovered) {
-      cellColor = color(255, 0, 0)
+      cellColor = this.p5.color(255, 0, 0)
     } else {
-      cellColor = color(0, 255, 0)
+      cellColor = this.p5.color(0, 255, 0)
     }
-    super.show(cx, cy, scale, cellColor, color(0))
+    super.show(cx, cy, scale, cellColor, this.p5.color(0))
   }
 }
