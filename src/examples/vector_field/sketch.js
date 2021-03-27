@@ -1,8 +1,9 @@
 const s = (sketch) => {
-  const scale = 10
-  const cols = 50
-  const rows = 50
-  const noisiness = 0.002
+  const scale = 50
+  const cols = 20
+  const rows = 20
+  const noisiness = 0.0003
+  const increment = 0.0005
   let zoff = 0
 
   let gridCanvas
@@ -21,7 +22,7 @@ const s = (sketch) => {
   sketch.draw = () => {
     sketch.background(255)
     gridCanvas.draw2DGrid(createUnitVector)
-    zoff += 0.003
+    zoff += increment
   }
 }
 
