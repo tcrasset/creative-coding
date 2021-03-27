@@ -59,7 +59,7 @@ class GridCanvas {
     this.grid = Array(this.arrayLength)
   }
   createCanvas() {
-    this.p5.createCanvas(this.totalHeight, this.totalWidth, p5.P2D)
+    this.p5.createCanvas(this.totalHeight, this.totalWidth, this.p5.P2D)
   }
 
   createGrid(cellCallback = required()) {
