@@ -25,7 +25,7 @@ class DisplayUnitVector {
   }
 
   setAngle(angle = required()) {
-    this.value = new p5.Vector.fromAngle(degrees(angle))
+    this.value = new p5.Vector.fromAngle(this.p5.degrees(angle))
   }
 
   magnitude() {
