@@ -30,6 +30,7 @@ class DFS {
             neighbour.x,
             neighbour.y
           )
+          neighbourCell.isNeighbour = true
           this.queue.push(neighbourCell)
 
           // We push the parent only if the node is visited the first time
@@ -64,22 +65,29 @@ class DFSCell extends Cell {
   constructor(i = required(), j = required(), _p5 = required()) {
     super(i, j, _p5)
     this.parent = null
-    this.discovered = false
+    this.current = false
+    this.isNeighbour = false
     this.isOnPath = false
   }
 
   discover() {
-    this.discovered = true
+    this.current = true
   }
 
   show(cx, cy, scale) {
     let cellColor
+    const cp = new ColorPalette(this.p5)
     if (this.isOnPath) {
-      cellColor = this.p5.color(0, 0, 255)
-    } else if (this.discovered) {
-      cellColor = this.p5.color(255, 0, 0)
+      // Path color
+      cellColor = cp.dieselBlue
+    } else if (this.current) {
+      // Current cell
+      cellColor = cp.salmonPink
+    } else if (this.isNeighbour) {
+      // Neighbour
+      cellColor = cp.grey
     } else {
-      cellColor = this.p5.color(0, 255, 0)
+      cellColor = cp.offWhite
     }
     super.show(cx, cy, scale, cellColor, this.p5.color(0))
   }

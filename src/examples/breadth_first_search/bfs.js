@@ -11,6 +11,7 @@ class BFS {
   search() {
     if (this.queue.length != 0) {
       const elem = this.queue.shift()
+      elem.current = true
       if (elem === this.end) {
         this.isDone = true
         return
@@ -52,6 +53,7 @@ class BFSCell extends Cell {
     super(i, j, _p5)
     this.parent = null
     this.discovered = false
+    this.current = false
     this.isOnPath = false
   }
 
@@ -62,12 +64,16 @@ class BFSCell extends Cell {
 
   show(cx, cy, scale) {
     let cellColor
+    const cp = new ColorPalette(this.p5)
+
     if (this.isOnPath) {
-      cellColor = this.p5.color(0, 0, 255)
+      cellColor = cp.dieselBlue
+    } else if (this.current) {
+      cellColor = cp.salmonPink
     } else if (this.discovered) {
-      cellColor = this.p5.color(255, 0, 0)
+      cellColor = cp.grey
     } else {
-      cellColor = this.p5.color(0, 255, 0)
+      cellColor = cp.offWhite
     }
     super.show(cx, cy, scale, cellColor, this.p5.color(0))
   }
