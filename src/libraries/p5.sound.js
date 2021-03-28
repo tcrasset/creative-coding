@@ -2618,7 +2618,7 @@ fft = function () {
     } else {
       timeToInt(this, this.timeDomain);
       this.analyser.getByteTimeDomainData(this.timeDomain);
-      var normalArray = new Array();
+      var normalArray = [];
       for (var j = 0; j < this.timeDomain.length; j++) {
         var scaled = p5.prototype.map(this.timeDomain[j], 0, 255, -1, 1);
         normalArray.push(scaled);
