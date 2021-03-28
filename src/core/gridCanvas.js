@@ -162,6 +162,19 @@ class GridCanvas {
     }
   }
 
+  getGridElementAtArrayIndex(index = required()) {
+    try {
+      // When called as a first function (i.e. not within this.getGridElementAtCoordinate()),
+      // we want the user to know that he selected an out of bounds index.
+      return this.grid[index]
+    } catch (error) {
+      console.error(
+        `Index (index) out of bounds. Min is (0). 
+          Max is (${this.arrayLength - 1})`
+      )
+    }
+  }
+
   getGridElementAtCoordinate(x = required(), y = required()) {
     // Given a valid `x` and `y` on the canvas, returns the
     // element at these coordinates
