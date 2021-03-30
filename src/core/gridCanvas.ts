@@ -1,4 +1,18 @@
-class GridCanvas {
+import p5 from 'p5';
+import {Cell} from './cell'
+
+interface IcellCallback { (i: number, j: number, scale: number) : Cell }
+
+export class GridCanvas {
+  p5: p5;
+  cols: number;
+  rows: number;
+  scale: number;
+  totalWidth: number;
+  totalHeight: number;
+  arrayLength: number;
+  grid: Cell[];
+  
   // Grid of size `this.totalHeight` and `this.totalWidth`, divided
   // into squares of size `this.scale`, creating a total amount of `this.rows`
   // and `this.cols` (`rows` and `cols` contains an int, the number of elements).
@@ -16,22 +30,22 @@ class GridCanvas {
   //    - this.totalHeight as the total height
 
   static cellIndexToCoordinates(
-    i = required(),
-    j = required(),
-    scale = required(),
-    _p5 = required(),
-  ) {
+    i : number ,
+    j : number,
+    scale : number,
+    _p5 : p5,
+  ): p5.Vector {
     // Given a cell index (amount of rows/cols) and the scale, return the coordinate of that
     // cell (upper left corner)
     return _p5.createVector(i * scale, j * scale);
   }
 
   static cellIndex(
-    x = required(),
-    y = required(),
-    scale = required(),
-    _p5 = required(),
-  ) {
+    x : number,
+    y : number,
+    scale : number,
+    _p5 : p5,
+  ) : p5.Vector {
     // Given any valid `x` and `y` from the canvas
     // returns the corresponding cell index where
     // x and y is located in as a p5.Vector
@@ -42,10 +56,10 @@ class GridCanvas {
   }
 
   constructor(
-    rows = required(),
-    cols = required(),
-    scale = required(),
-    _p5 = required(),
+    rows : number,
+    cols : number,
+    scale : number,
+    _p5 : p5,
   ) {
     this.p5 = _p5;
 
@@ -56,13 +70,13 @@ class GridCanvas {
     this.totalHeight = rows * scale;
 
     this.arrayLength = rows * cols;
-    this.grid = Array(this.arrayLength);
+    this.grid = (Array(this.arrayLength) as never[]);
   }
-  createCanvas() {
+  createCanvas() :void{
     this.p5.createCanvas(this.totalHeight, this.totalWidth, this.p5.P2D);
   }
 
-  createGrid(cellCallback = required()) {
+  createGrid(cellCallback : IcellCallback ) : Cell[]{
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
         const index = this.cellIndexToArrayIndex(i, j);
@@ -72,7 +86,7 @@ class GridCanvas {
     return this.grid;
   }
 
-  draw2DGrid(shapeCallback = required()) {
+  draw2DGrid(shapeCallback: IcellCallback ) : void {
     // Draws the 2D grid with an object returned by `shapeCallback`
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
@@ -87,20 +101,20 @@ class GridCanvas {
     }
   }
 
-  isValidI(i = required()) {
+  isValidI(i : number) : boolean{
     return i >= 0 && i < this.rows;
   }
 
-  isValidJ(j = required()) {
+  isValidJ(j : number) : boolean{
     return j >= 0 && j < this.cols;
   }
 
-  checkOOBIndex(i = required(), j = required()) {
+  checkOOBIndex(i: number , j: number) : void {
     const coords = GridCanvas.cellIndexToCoordinates(i, j, this.scale, this.p5);
     this.checkOOBCoords(coords.x, coords.y);
   }
 
-  checkOOBCoords(x = required(), y = required()) {
+  checkOOBCoords(x: number , y : number) : void{
     if (x >= this.totalHeight || x < 0 || y >= this.totalWidth || y < 0) {
       throw Error(
         `Position out of bounds. Actual(${x}, ${y}), Min is (0,0),
@@ -109,7 +123,7 @@ class GridCanvas {
     }
   }
 
-  neighbours(i = required(), j = required(), withDiagonals = false) {
+  neighbours(i : number, j : number, withDiagonals = false) : p5.Vector[]{
     const neighbours = [];
 
     if (this.isValidI(i - 1)) neighbours.push(this.p5.createVector(i - 1, j));
@@ -135,12 +149,12 @@ class GridCanvas {
     return neighbours;
   }
 
-  cellIndexToArrayIndex(i = required(), j = required()) {
+  cellIndexToArrayIndex(i : number, j : number) : number {
     this.checkOOBIndex(i, j);
     return i * this.cols + j;
   }
 
-  arrayIndexToCellIndex(index = required()) {
+  arrayIndexToCellIndex(index : number) : p5.Vector {
     if (index >= this.arrayLength || index < 0) {
       throw Error(`Index (${index}) out of bounds`);
     }
@@ -149,7 +163,7 @@ class GridCanvas {
     return this.p5.createVector(x, y);
   }
 
-  getGridElementAtCellIndex(i = required(), j = required()) {
+  getGridElementAtCellIndex(i : number, j : number) : Cell | undefined {
     try {
       // When called as a first function (i.e. not within this.getGridElementAtCoordinate()),
       // we want the user to know that he selected an out of bounds index.
@@ -158,12 +172,12 @@ class GridCanvas {
     } catch (error) {
       console.error(
         `Index (${i}, ${j}) out of bounds. Min is (0,0). 
-          Max is (${cols - 1}, ${rows - 1})`,
+          Max is (${this.cols - 1}, ${this.rows - 1})`,
       );
     }
   }
 
-  getGridElementAtArrayIndex(index = required()) {
+  getGridElementAtArrayIndex(index : number) : Cell | undefined {
     try {
       // When called as a first function (i.e. not within this.getGridElementAtCoordinate()),
       // we want the user to know that he selected an out of bounds index.
@@ -176,7 +190,7 @@ class GridCanvas {
     }
   }
 
-  getGridElementAtCoordinate(x = required(), y = required()) {
+  getGridElementAtCoordinate(x : number, y: number ) {
     // Given a valid `x` and `y` on the canvas, returns the
     // element at these coordinates
 
