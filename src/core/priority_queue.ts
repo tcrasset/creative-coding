@@ -1,7 +1,9 @@
 // By Sumit Ghosh at https://www.geeksforgeeks.org/implementation-priority-queue-javascript/
 
 class QElement {
-  constructor(element = required(), priority = required()) {
+  element: never;
+  priority: number;
+  constructor(element : never, priority : number) {
     this.element = element;
     this.priority = priority;
   }
@@ -10,20 +12,21 @@ class QElement {
 // PriorityQueue class
 
 // Highest priority is at the end of the array
-class PriorityQueue {
+export class PriorityQueue {
+  items: QElement[];
   constructor() {
     this.items = [];
   }
 
   /**
    *
-   * @param {*} element
-   * @param {0} priority Priority of the element. Defaults to 0, thus works as:
+   * @param  element
+   * @param  priority Priority of the element. Defaults to 0, thus works as:
    *                    - a LIFO queue if removeLowest() is used,
    *                    - a FIFO queue if removeHighest() is used,
    *
    */
-  enqueue(element = required(), priority = 0) {
+  enqueue(element : never, priority = 0) : void {
     const qElement = new QElement(element, priority);
     let contain = false;
 
@@ -42,27 +45,27 @@ class PriorityQueue {
     }
   }
 
-  removeHighest() {
+  removeHighest() : never {
     if (this.isEmpty()) throw Error('Queue is empty');
-    return this.items.pop().element;
+    return (this.items.pop() as QElement).element;
   }
 
-  removeLowest() {
+  removeLowest() : never {
     if (this.isEmpty()) throw Error('Queue is empty');
-    return this.items.shift().element;
+    return (this.items.shift() as QElement).element;
   }
 
-  peekLowest() {
+  peekLowest() : never | null {
     if (this.isEmpty()) return null;
     return this.items[0].element;
   }
 
-  peekHighest() {
+  peekHighest() : never | null{
     if (this.isEmpty()) return null;
     return this.items[this.items.length - 1].element;
   }
 
-  isIn(element = required()) {
+  isIn(element : never) : boolean {
     this.items.forEach((qElem) => {
       if (qElem.element == element) {
         return true;
@@ -72,7 +75,7 @@ class PriorityQueue {
   }
 
   // isEmpty function
-  isEmpty() {
+  isEmpty() : boolean {
     // return true if the queue is empty.
     return this.items.length == 0;
   }
