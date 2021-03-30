@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GridCanvas = void 0;
-var GridCanvas = /** @class */ (function () {
-    function GridCanvas(rows, cols, scale, _p5) {
+class GridCanvas {
+    constructor(rows, cols, scale, _p5) {
         this.p5 = _p5;
         this.cols = cols;
         this.rows = rows;
@@ -27,58 +27,58 @@ var GridCanvas = /** @class */ (function () {
     //    - x stands for coordinates in that axis
     //    - i stands for the grid index on that axis
     //    - this.totalHeight as the total height
-    GridCanvas.cellIndexToCoordinates = function (i, j, scale, _p5) {
+    static cellIndexToCoordinates(i, j, scale, _p5) {
         // Given a cell index (amount of rows/cols) and the scale, return the coordinate of that
         // cell (upper left corner)
         return _p5.createVector(i * scale, j * scale);
-    };
-    GridCanvas.cellIndex = function (x, y, scale, _p5) {
+    }
+    static cellIndex(x, y, scale, _p5) {
         // Given any valid `x` and `y` from the canvas
         // returns the corresponding cell index where
         // x and y is located in as a p5.Vector
-        var i = _p5.floor(x / scale);
-        var j = _p5.floor(y / scale);
+        const i = _p5.floor(x / scale);
+        const j = _p5.floor(y / scale);
         return _p5.createVector(i, j);
-    };
-    GridCanvas.prototype.createCanvas = function () {
+    }
+    createCanvas() {
         this.p5.createCanvas(this.totalHeight, this.totalWidth, this.p5.P2D);
-    };
-    GridCanvas.prototype.createGrid = function (cellCallback) {
-        for (var i = 0; i < this.rows; i++) {
-            for (var j = 0; j < this.cols; j++) {
-                var index = this.cellIndexToArrayIndex(i, j);
+    }
+    createGrid(cellCallback) {
+        for (let i = 0; i < this.rows; i++) {
+            for (let j = 0; j < this.cols; j++) {
+                const index = this.cellIndexToArrayIndex(i, j);
                 this.grid[index] = cellCallback(i, j, this.scale);
             }
         }
         return this.grid;
-    };
-    GridCanvas.prototype.draw2DGrid = function (shapeCallback) {
+    }
+    draw2DGrid(shapeCallback) {
         // Draws the 2D grid with an object returned by `shapeCallback`
-        for (var i = 0; i < this.rows; i++) {
-            for (var j = 0; j < this.cols; j++) {
-                var cellCoordinates = GridCanvas.cellIndexToCoordinates(i, j, this.scale, this.p5);
+        for (let i = 0; i < this.rows; i++) {
+            for (let j = 0; j < this.cols; j++) {
+                const cellCoordinates = GridCanvas.cellIndexToCoordinates(i, j, this.scale, this.p5);
                 shapeCallback(cellCoordinates.x, cellCoordinates.y, this.scale);
             }
         }
-    };
-    GridCanvas.prototype.isValidI = function (i) {
+    }
+    isValidI(i) {
         return i >= 0 && i < this.rows;
-    };
-    GridCanvas.prototype.isValidJ = function (j) {
+    }
+    isValidJ(j) {
         return j >= 0 && j < this.cols;
-    };
-    GridCanvas.prototype.checkOOBIndex = function (i, j) {
-        var coords = GridCanvas.cellIndexToCoordinates(i, j, this.scale, this.p5);
+    }
+    checkOOBIndex(i, j) {
+        const coords = GridCanvas.cellIndexToCoordinates(i, j, this.scale, this.p5);
         this.checkOOBCoords(coords.x, coords.y);
-    };
-    GridCanvas.prototype.checkOOBCoords = function (x, y) {
+    }
+    checkOOBCoords(x, y) {
         if (x >= this.totalHeight || x < 0 || y >= this.totalWidth || y < 0) {
-            throw Error("Position out of bounds. Actual(" + x + ", " + y + "), Min is (0,0),\n         Max is (" + this.totalWidth + ", " + this.totalHeight + ") ");
+            throw Error(`Position out of bounds. Actual(${x}, ${y}), Min is (0,0),
+         Max is (${this.totalWidth}, ${this.totalHeight}) `);
         }
-    };
-    GridCanvas.prototype.neighbours = function (i, j, withDiagonals) {
-        if (withDiagonals === void 0) { withDiagonals = false; }
-        var neighbours = [];
+    }
+    neighbours(i, j, withDiagonals = false) {
+        const neighbours = [];
         if (this.isValidI(i - 1))
             neighbours.push(this.p5.createVector(i - 1, j));
         if (this.isValidJ(j - 1))
@@ -102,47 +102,48 @@ var GridCanvas = /** @class */ (function () {
                 neighbours.push(this.p5.createVector(i + 1, j + 1));
         }
         return neighbours;
-    };
-    GridCanvas.prototype.cellIndexToArrayIndex = function (i, j) {
+    }
+    cellIndexToArrayIndex(i, j) {
         this.checkOOBIndex(i, j);
         return i * this.cols + j;
-    };
-    GridCanvas.prototype.arrayIndexToCellIndex = function (index) {
+    }
+    arrayIndexToCellIndex(index) {
         if (index >= this.arrayLength || index < 0) {
-            throw Error("Index (" + index + ") out of bounds");
+            throw Error(`Index (${index}) out of bounds`);
         }
-        var x = index % this.cols; // % is the "modulo operator", the remainder of i / width;
-        var y = index / this.cols;
+        const x = index % this.cols; // % is the "modulo operator", the remainder of i / width;
+        const y = index / this.cols;
         return this.p5.createVector(x, y);
-    };
-    GridCanvas.prototype.getGridElementAtCellIndex = function (i, j) {
+    }
+    getGridElementAtCellIndex(i, j) {
         try {
             // When called as a first function (i.e. not within this.getGridElementAtCoordinate()),
             // we want the user to know that he selected an out of bounds index.
-            var index = this.cellIndexToArrayIndex(i, j);
+            const index = this.cellIndexToArrayIndex(i, j);
             return this.grid[index];
         }
         catch (error) {
-            console.error("Index (" + i + ", " + j + ") out of bounds. Min is (0,0). \n          Max is (" + (this.cols - 1) + ", " + (this.rows - 1) + ")");
+            console.error(`Index (${i}, ${j}) out of bounds. Min is (0,0). 
+          Max is (${this.cols - 1}, ${this.rows - 1})`);
         }
-    };
-    GridCanvas.prototype.getGridElementAtArrayIndex = function (index) {
+    }
+    getGridElementAtArrayIndex(index) {
         try {
             // When called as a first function (i.e. not within this.getGridElementAtCoordinate()),
             // we want the user to know that he selected an out of bounds index.
             return this.grid[index];
         }
         catch (error) {
-            console.error("Index (index) out of bounds. Min is (0). \n          Max is (" + (this.arrayLength - 1) + ")");
+            console.error(`Index (index) out of bounds. Min is (0). 
+          Max is (${this.arrayLength - 1})`);
         }
-    };
-    GridCanvas.prototype.getGridElementAtCoordinate = function (x, y) {
+    }
+    getGridElementAtCoordinate(x, y) {
         // Given a valid `x` and `y` on the canvas, returns the
         // element at these coordinates
         this.checkOOBCoords(x, y);
-        var cellIndex = GridCanvas.cellIndex(x, y, this.scale, this.p5);
+        const cellIndex = GridCanvas.cellIndex(x, y, this.scale, this.p5);
         return this.getGridElementAtCellIndex(cellIndex.x, cellIndex.y);
-    };
-    return GridCanvas;
-}());
+    }
+}
 exports.GridCanvas = GridCanvas;

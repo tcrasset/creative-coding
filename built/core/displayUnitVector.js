@@ -5,9 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DisplayUnitVector = void 0;
-var p5_1 = __importDefault(require("p5"));
-var DisplayUnitVector = /** @class */ (function () {
-    function DisplayUnitVector(angle, magnitude, length, margin, _p5) {
+const p5_1 = __importDefault(require("p5"));
+class DisplayUnitVector {
+    constructor(angle, magnitude, length, margin, _p5) {
         this.p5 = _p5;
         // The angle should be in radians.
         this.value = p5_1.default.Vector.fromAngle(this.p5.degrees(angle));
@@ -17,19 +17,18 @@ var DisplayUnitVector = /** @class */ (function () {
         this.length = length;
         this.margin = margin;
     }
-    DisplayUnitVector.prototype.angle = function () {
+    angle() {
         return this.value.heading();
-    };
-    DisplayUnitVector.prototype.setAngle = function (angle) {
+    }
+    setAngle(angle) {
         this.value = p5_1.default.Vector.fromAngle(this.p5.degrees(angle));
-    };
-    DisplayUnitVector.prototype.magnitude = function () {
+    }
+    magnitude() {
         return this.value.mag();
-    };
-    DisplayUnitVector.prototype.show = function (x, y, scale, mode) {
+    }
+    show(x, y, scale, mode = 'CORNER') {
         // const allowedModes = ['CORNER', 'CENTER'];
         // if (!allowedModes.includes(mode)) throw Error('Invalid mode');
-        if (mode === void 0) { mode = 'CORNER'; }
         this.p5.push();
         this.p5.stroke(0);
         this.p5.strokeWeight(1);
@@ -37,8 +36,8 @@ var DisplayUnitVector = /** @class */ (function () {
         // being the corners (an thus we have to translate to the center)
         // or directly the center coordinates
         if (mode === 'CORNER') {
-            var centerX = x + 0.5 * scale;
-            var centerY = y + 0.5 * scale;
+            const centerX = x + 0.5 * scale;
+            const centerY = y + 0.5 * scale;
             this.p5.translate(centerX, centerY);
         }
         else if (mode === 'CENTER') {
@@ -46,17 +45,16 @@ var DisplayUnitVector = /** @class */ (function () {
         }
         this.p5.rotate(this.angle());
         // Have the vector be of equal length on either side of the center
-        var startX = -this.length / 2 + this.margin;
-        var endX = this.length / 2 - this.margin;
+        const startX = -this.length / 2 + this.margin;
+        const endX = this.length / 2 - this.margin;
         this.p5.line(startX, 0, endX, 0);
         // Arrow head
-        var arrowProportion = 0.8;
-        var arrowStartX = endX * arrowProportion;
-        var arrowStartY = (1 - arrowProportion) * endX;
+        const arrowProportion = 0.8;
+        const arrowStartX = endX * arrowProportion;
+        const arrowStartY = (1 - arrowProportion) * endX;
         this.p5.line(arrowStartX, arrowStartY, endX, 0);
         this.p5.line(arrowStartX, -arrowStartY, endX, 0);
         this.p5.pop();
-    };
-    return DisplayUnitVector;
-}());
+    }
+}
 exports.DisplayUnitVector = DisplayUnitVector;

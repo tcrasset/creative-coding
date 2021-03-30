@@ -2,17 +2,16 @@
 // By Sumit Ghosh at https://www.geeksforgeeks.org/implementation-priority-queue-javascript/
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PriorityQueue = void 0;
-var QElement = /** @class */ (function () {
-    function QElement(element, priority) {
+class QElement {
+    constructor(element, priority) {
         this.element = element;
         this.priority = priority;
     }
-    return QElement;
-}());
+}
 // PriorityQueue class
 // Highest priority is at the end of the array
-var PriorityQueue = /** @class */ (function () {
-    function PriorityQueue() {
+class PriorityQueue {
+    constructor() {
         this.items = [];
     }
     /**
@@ -23,11 +22,10 @@ var PriorityQueue = /** @class */ (function () {
      *                    - a FIFO queue if removeHighest() is used,
      *
      */
-    PriorityQueue.prototype.enqueue = function (element, priority) {
-        if (priority === void 0) { priority = 0; }
-        var qElement = new QElement(element, priority);
-        var contain = false;
-        for (var i = 0; i < this.items.length; i++) {
+    enqueue(element, priority = 0) {
+        const qElement = new QElement(element, priority);
+        let contain = false;
+        for (let i = 0; i < this.items.length; i++) {
             if (this.items[i].priority >= qElement.priority) {
                 this.items.splice(i, 0, qElement);
                 contain = true;
@@ -39,40 +37,39 @@ var PriorityQueue = /** @class */ (function () {
         if (!contain) {
             this.items.push(qElement);
         }
-    };
-    PriorityQueue.prototype.removeHighest = function () {
+    }
+    removeHighest() {
         if (this.isEmpty())
             throw Error('Queue is empty');
         return this.items.pop().element;
-    };
-    PriorityQueue.prototype.removeLowest = function () {
+    }
+    removeLowest() {
         if (this.isEmpty())
             throw Error('Queue is empty');
         return this.items.shift().element;
-    };
-    PriorityQueue.prototype.peekLowest = function () {
+    }
+    peekLowest() {
         if (this.isEmpty())
             return null;
         return this.items[0].element;
-    };
-    PriorityQueue.prototype.peekHighest = function () {
+    }
+    peekHighest() {
         if (this.isEmpty())
             return null;
         return this.items[this.items.length - 1].element;
-    };
-    PriorityQueue.prototype.isIn = function (element) {
-        this.items.forEach(function (qElem) {
+    }
+    isIn(element) {
+        this.items.forEach((qElem) => {
             if (qElem.element == element) {
                 return true;
             }
         });
         return false;
-    };
+    }
     // isEmpty function
-    PriorityQueue.prototype.isEmpty = function () {
+    isEmpty() {
         // return true if the queue is empty.
         return this.items.length == 0;
-    };
-    return PriorityQueue;
-}());
+    }
+}
 exports.PriorityQueue = PriorityQueue;

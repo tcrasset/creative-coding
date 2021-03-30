@@ -1,7 +1,8 @@
 import p5 from 'p5';
 import {Cell} from './cell'
 
-interface IcellCallback { (i: number, j: number, scale: number) : Cell }
+export interface ICellCallback { (i: number, j: number, scale: number) : Cell }
+export interface IShapeCallback { (i: number, j: number, scale: number) : void }
 
 export class GridCanvas {
   p5: p5;
@@ -76,7 +77,7 @@ export class GridCanvas {
     this.p5.createCanvas(this.totalHeight, this.totalWidth, this.p5.P2D);
   }
 
-  createGrid(cellCallback : IcellCallback ) : Cell[]{
+  createGrid(cellCallback : ICellCallback ) : Cell[]{
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
         const index = this.cellIndexToArrayIndex(i, j);
@@ -86,7 +87,7 @@ export class GridCanvas {
     return this.grid;
   }
 
-  draw2DGrid(shapeCallback: IcellCallback ) : void {
+  draw2DGrid(shapeCallback: IShapeCallback ) : void {
     // Draws the 2D grid with an object returned by `shapeCallback`
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
