@@ -1,12 +1,18 @@
 /* eslint-disable new-cap */
 
-class DisplayUnitVector {
+import p5 from "p5";
+
+export class DisplayUnitVector {
+  p5: p5;
+  value: p5.Vector;
+  length: number;
+  margin: number;
   constructor(
-    angle = required(),
-    magnitude = required(),
-    length = required(),
-    margin = required(),
-    _p5 = required(),
+    angle :number,
+    magnitude : number ,
+    length : number ,
+    margin :number,
+    _p5 : p5,
   ) {
     this.p5 = _p5;
 
@@ -20,22 +26,22 @@ class DisplayUnitVector {
     this.margin = margin;
   }
 
-  angle() {
+  angle() : number{
     return this.value.heading();
   }
 
-  setAngle(angle = required()) {
-    this.value = new p5.Vector.fromAngle(this.p5.degrees(angle));
+  setAngle(angle : number ) : void {
+    this.value  = p5.Vector.fromAngle(this.p5.degrees(angle));
   }
 
-  magnitude() {
+  magnitude() : number{
     return this.value.mag();
   }
 
-  show(x = required(), y = required(), scale = required(), mode = 'CORNER') {
-    const allowedModes = ['CORNER', 'CENTER'];
+  show(x : number, y  : number, scale : number , mode = 'CORNER') : void {
+    // const allowedModes = ['CORNER', 'CENTER'];
+    // if (!allowedModes.includes(mode)) throw Error('Invalid mode');
 
-    if (!allowedModes.includes(mode)) throw Error('Invalid mode');
     this.p5.push();
     this.p5.stroke(0);
     this.p5.strokeWeight(1);
