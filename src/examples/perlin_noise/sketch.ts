@@ -1,6 +1,6 @@
 /* eslint-disable new-cap */
 import p5 from 'p5';
-import {GridCanvas, IShapeCallback} from '../../core/gridCanvas'
+import {GridCanvas, IShapeCallback} from '../../core/gridCanvas.js'
 const s = (sketch : p5) => {
   const scale = 10;
   const cols = 100;
